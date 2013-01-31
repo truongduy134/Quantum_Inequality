@@ -4,8 +4,8 @@
 %
 % Input:
 %	+ M: the moment matrix
-% 	+ L: the list of monomials that the moment matrix M is indexed by (the order in L matters)
 %	+ order: the order (or level) of the semidefinite programming.
+%	+ listMono: the list of monomials that the moment matrix M is indexed by (the order in listMono matters)
 %	+ varProperties: a cell of size 1 x 2. 
 %			Each element in m_varProperties is a cell of size 1 x m where m is the number of inputs of
 %			the measurements.

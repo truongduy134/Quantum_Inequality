@@ -12,7 +12,7 @@
 %
 % Calculates the upperbound of inputPoly.
 %
-% The function returns [upperBoundVal, solverMessage, monoMapTable, monoList] where 
+% The function returns [upperBoundVal, solverMessage, momentMatrix, monoMapTable, monoList] where 
 %	+ upperBoundVal: the upperbound of inputPoly calculated by our program.
 %	+ solverMessage: the result returned from YALMIP and SeDuMi functions.
 %	+ momentMatrix: the moment matrix
@@ -50,15 +50,15 @@ function [upperBoundVal solverMessage momentMatrix monoMapTable monoList] = find
 	disp(str);
 	disp('End Step 1');
 	
-	MAX_FAST = 80;
-	if lenMonoList > MAX_FAST
-		str = sprintf('It may take very long time to run an SDP with %d monomials', lenMonoList);
-		disp(str);
-		strResp = input('Would you like to continue? ["y" for YES and "n" for NO]');
-		if ~(strResp == 'y' || strResp == 'Y' || lower(strResp) == 'yes')
-			return;
-		end
-	end
+	%MAX_FAST = 80;
+	%if lenMonoList > MAX_FAST
+	%	str = sprintf('It may take very long time to run an SDP with %d monomials', lenMonoList);
+	%	disp(str);
+	%	strResp = input('Would you like to continue? ["y" for YES and "n" for NO]');
+	%	if ~(strResp == 'y' || strResp == 'Y' || lower(strResp) == 'yes')
+	%		return;
+	%	end
+	%end
 
 	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 	% Start Step 2. (Establish constraints between elements in the monoment matrix (excluding identity constraints))

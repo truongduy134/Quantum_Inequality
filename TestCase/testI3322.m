@@ -36,9 +36,7 @@ function testI3322(varargin)
 	polyOp = createPolyFromExpr(expr, varPropWithName, 'projector', 'partial');
 	
 	% Call the solver
-	% Clearly, each input group does not contain enough variables. Hence, we do not check the identity constraint
-	checkIdentityConstraint = 0;		% 0 means NOT CHECK
-	result = findQuantumBound(polyOp, sdpLevel, checkIdentityConstraint, hashGenMonoInfo);
+	result = findQuantumBound(polyOp, sdpLevel, hashGenMonoInfo);
 	
 	% Print result
 	disp('Upper bound value = ');

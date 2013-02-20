@@ -26,18 +26,16 @@ function testYaoIneq(varargin)
 	
 	polyStr = 'A_1 * B_2 * C_3 + A_2 * B_3 * C_1 + A_3 * B_1 * C_2 - A_1 * B_3 * C_2 - A_2 * B_1 * C_3 - A_3 * B_2 * C_1';
 	varPropWithName = {{'A_1', 'A_2', 'A_3'}, {'B_1', 'B_2', 'B_3'}, {'C_1', 'C_2', 'C_3'}};
-	polyOp = createPolyFromExpr(polyStr, varPropWithName, 'observable');
+	[polyOp ~] = createPolyFromExpr(polyStr, varPropWithName, 'observable');
 	
 	% Call the solver
-	% Since all variables are observables, we do not check the identity constraint
-	checkIdentityConstraint = 0;		% 0 means NOT CHECK
 	result = findQuantumBound(polyOp, sdpLevel, checkIdentityConstraint, hashGenMonoInfo);
 	
 	% Print result
 	disp('Upper bound value = ');
-	disp(result{1});
+	disp(result(1));
 	disp('Solver message = ');
-	disp(result{2});
+	disp(result(2));
 	
 end
 	

@@ -33,18 +33,23 @@ function testI3322(varargin)
 	% The variable type is PROJECTOR which is mapped to 0.
 	expr = 'A"a_1 * (B"b_1 + B"b_2 + B"b_3) + A"a_2 * (B"b_1 + B"b_2 - B"b_3) + A"a_3 * (B"b_1 - B"b_2) - A"a_1 - 2 * B"b_1 - B"b_2';
 	varPropWithName = {{{'A"a_1'}, {'A"a_2'}, {'A"a_3'}}, {{'B"b_1'}, {'B"b_2'}, {'B"b_3'}}};
-	polyOp = createPolyFromExpr(expr, varPropWithName, 'projector', 'partial');
+	[polyOp ~] = createPolyFromExpr(expr, varPropWithName, 'projector', 'partial');
 	
 	% Call the solver
-	result = findQuantumBound(polyOp, sdpLevel, hashGenMonoInfo);
+	[upperBoundVal solverMessage momentMatrix monoMapTable monoList] = findQuantumBound(polyOp, sdpLevel, hashGenMonoInfo);
 	
 	% Print result
 	disp('Upper bound value = ');
-	disp(result{1});
+	disp(upperBoundVal);
 	disp('Solver message = ');
-	disp(result{2});
+	disp(solverMessage);
 	
 	disp('Rank Loop Result: ');
-	disp(hasRankLoop(result{3}, sdpLevel, result{5}, polyOp.m_varProperties, 1e-10));
+	[rankLoop rankMoment epsilon] = hasRankLoop(momentMatrix, sdpLevel,  monoList, polyOp.m_varProperties);
+	if(rankLoop)
+		disp('Rank loop occurs')
+	else
+		disp('Rank loop does NOT occur');
+	end
 end
 	

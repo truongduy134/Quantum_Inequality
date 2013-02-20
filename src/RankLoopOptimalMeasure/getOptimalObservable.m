@@ -1,10 +1,10 @@
-% The function: getOptimalObservable(M, cellVar, positionHash)
+% The function: getOptimalObservable(M, polyObj, positionHash)
 %
 % Important note: This function is only applicable to two-party cases only!
 %
 % Inputs:
 %	+ M: the moment matrix.
-% 	+ cellVar: a cell containing a list of variables (singleton monomials). 
+% 	+ polyObj: the polynomial object representing the polynomial you want to optimize
 %	+ positionHash: a hash table that maps a string representing the variable ordering of a monomial to the monomial's location (row, column) 
 %		in the moment matrix.
 %
@@ -20,13 +20,16 @@
 %	+ Find the Cholesky decomposition of M, i.e. the matrix R such that (R*)R = M (R* is the conjugate transpose of R)
 %	+ Let R = (v1 v2 ... vk) where k = order. Then we have 
 %   + Generate the Clifford algebra (T1, T2, ..., Tk)
-function [cellObservable opState]=  getOptimalObservable(momentMatrix, cellVar, positionHash)
+function [cellObservable opState]=  getOptimalObservable(momentMatrix, polyObj, positionHash)
 	sizeMat = size(momentMatrix);
 	order = sizeMat(1);
 
 	% Find the observables explicitly
 	cholDecompose = choleskyDecompose(momentMatrix, 1e-10, 1);
 
+	% Generate a cell of monomials of order 1 (e.g. a cell of variables)
+	cellVar = generateCellMonomialOrder(1, polyObj.m_varProperties, polyObj.m_varType, 0);
+	
 	% Declare some variables that will be used throughout the function!
 	numVar = length(cellVar);
 	sizeOp = 2 ^ (floor(order / 2));

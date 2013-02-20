@@ -1,4 +1,4 @@
-% The function: getOptimalProjector(M, order, cellMono, varProperties)
+% The function: getOptimalProjector(M, order, cellMono, polyObj)
 %
 % Important note: This function is only applicable to two-party cases only! Variables must be projectors
 %
@@ -6,18 +6,16 @@
 %	+ M: the moment matrix.
 %	+ order: the order (or level) of the semidefinite programming.
 % 	+ cellMono: a cell containing monomials of degree <= the order of the semidefinite program. Note that the moment matrix is indexed by cellMono. 
-%	+ varProperties: a cell of size 1 x 2. 
-%			Each element in m_varProperties is a cell of size 1 x m where m is the number of inputs of
-%			the measurements.
-%			Each cell has elements as arrays. Each array contains integers representing variables.
+%	+ polyObj: the polynomial object representing the polynomial we optimize.
 %
 % Outputs:
 %	+ cellProjector: a cell of size N(where N is the total number of variables) where
 %			cellStateAndObservable{i} (i >= 1): the matrix representation of the projector measurement whose number is i. 
 %	+ opState: the optimal quantum state
-function [cellProjector opState] = getOptimalProjector(momentMatrix, order, cellMono, varProperties)
+function [cellProjector opState] = getOptimalProjector(momentMatrix, order, cellMono, polyObj)
 	cholDecompose = choleskyDecompose(momentMatrix, 1e-10);
-
+	
+	varProperties = polyOp.m_varProperties;
 	% Pre-processing:
 	% Enumerate two lists containing variables in each partition.
 	varParOne = cell2mat(varProperties{1});

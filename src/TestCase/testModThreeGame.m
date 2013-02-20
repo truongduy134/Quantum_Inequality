@@ -23,7 +23,7 @@
 %	+ There are 2 partitions (parties) 
 %				A = {{As0a0, As0a1, As0a2}, {As1a0, As1a1, As1a2}, {As2a0, As2a1, As2a2}} and 
 %				B = {{Bt0b0, Bt0b1, Bt0b2}, {Bt1b0, Bt1b1, Bt1b2}, {Bt2b0, Bt2b1, Bt2b2}}
-function output = testModThreeGame(varargin)
+function testModThreeGame(varargin)
 	sdpLevel = 1;
 	hashGenMonoInfo = specifyGenListMonoCriteria();
 	if nargin > 0
@@ -38,21 +38,23 @@ function output = testModThreeGame(varargin)
 	[polyOp reduceVar] = createPolyFromExpr(polyStr, varPropWithName, 'projector', 'full');
 
 	% Call the solver
-	checkIdentityConstraint = 0;		% 0 means NOT CHECK
-	result = findQuantumBound(polyOp, sdpLevel, checkIdentityConstraint, hashGenMonoInfo);
+	[upperBoundVal solverMessage momentMatrix monoMapTable monoList] = findQuantumBound(polyOp, sdpLevel, hashGenMonoInfo);
 
 	% Print result
 	disp('Upper bound value = ');
-	disp(result{1});
+	disp(upperBoundVal);
 	disp('Solver message = ');
-	disp(result{2});
+	disp(solverMessage);
 
 	% Check if there is a rank loop
-	[optimalMeasure rankLoopResult] = getOptimalProjector(result{3}, sdpLevel, result{5}, polyOp.m_varProperties);
-
-	if rankLoopResult
-		disp('Rank loop occurs');
+	disp('Rank Loop Result: ');
+	[rankLoop rankMoment epsilon] = hasRankLoop(momentMatrix, sdpLevel,  monoList, polyOp.m_varProperties);
+	if(rankLoop)
+		disp('Rank loop occurs')
 	else
 		disp('Rank loop does NOT occur');
 	end
+	
+	if(rankLoop)
+		[cellProjector opState] = getOptimalProjector(momentMatrix, sdpLevel, monoList, polyOp.m_varProperties);
 end

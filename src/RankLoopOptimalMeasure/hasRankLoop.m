@@ -1,4 +1,4 @@
-% The function: hasRankLoop(M, L, order, varProperties)
+% The function: hasRankLoop(M, order, listMono, polyObj)
 %
 % This function is only applicable to projectors. Also, there should be only 2 parties.
 %
@@ -6,16 +6,13 @@
 %	+ M: the moment matrix
 %	+ order: the order (or level) of the semidefinite programming.
 %	+ listMono: the list of monomials that the moment matrix M is indexed by (the order in listMono matters)
-%	+ varProperties: a cell of size 1 x 2. 
-%			Each element in m_varProperties is a cell of size 1 x m where m is the number of inputs of
-%			the measurements.
-%			Each cell has elements as arrays. Each array contains integers representing variables.
+%	+ polyObj: the polynomial object representing your polynomial.
 %
 % Output:
 %	+ rankLoop = 1 if there is a rank loop. Otherwise, rankLoop = 0.
 %	+ rankMoment: the rank of the moment matrix in case there is a rank loop. Otherwise, the value of rankMoment is ignored!
 %	+ epsilon: a cut-off threshold so that rankLoop can occur.
-function [rankLoop rankMoment epsilon] = hasRankLoop(momentMatrix, order, listMono, varProperties)
+function [rankLoop rankMoment epsilon] = hasRankLoop(momentMatrix, order, listMono, polyObj)
 	if order < 2
 		% Rank loop is not applicable to the semidefinite program at level 1
 		rankLoop = 'Rank loop is not applicable to the semidefinite program at level 1';
@@ -23,6 +20,7 @@ function [rankLoop rankMoment epsilon] = hasRankLoop(momentMatrix, order, listMo
 		return;
 	end
 
+	varProperties = polyOp.m_varProperties;
 	% Pre-processing:
 	% Enumerate two lists containing variables in each partition.
 	varParOne = cell2mat(varProperties{1});

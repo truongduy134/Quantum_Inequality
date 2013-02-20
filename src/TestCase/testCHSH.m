@@ -41,10 +41,7 @@ function [upperBoundVal solverMessage opMeasure opState] = testCHSH(varargin)
 		[upperBoundVal solverMessage momentMatrix monoMapTable monoList] = findQuantumBound(polyOp, sdpLevel, hashGenMonoInfo, varargin{3});
 	end
 
-	% Generate a cell of monomials of order 1 (e.g. a cell of variables)
-	cellVar = generateCellMonomialOrder(1, polyOp.m_varProperties, polyOp.m_varType, 0);
-
-	[opMeasureCell opState] = getOptimalObservable(momentMatrix, cellVar, monoMapTable);
+	[opMeasureCell opState] = getOptimalObservable(momentMatrix, polyOp, monoMapTable);
 
 	% Print result
 	disp('Upper bound value = ');

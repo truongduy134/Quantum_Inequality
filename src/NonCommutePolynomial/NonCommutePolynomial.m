@@ -84,10 +84,10 @@ function obj = NonCommutePolynomial(varargin)
     % Calculate number of variables
     obj.m_numVar = 0;
     if obj.m_varType == 1       % Observable case
-        obj.m_numVar = length(obj.m_varProperties)
+        obj.m_numVar = length(obj.m_varProperties);
     else                        % Projector case
         for partitionNo = 1 : length(obj.m_varProperties)
-            obj.m_numVar = obj.m_numVar + length(obj.m_varProperties{partitionNo})
+            obj.m_numVar = obj.m_numVar + length(obj.m_varProperties{partitionNo});
         end
     end
 

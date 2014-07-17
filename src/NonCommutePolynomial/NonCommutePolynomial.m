@@ -48,7 +48,7 @@ function obj = NonCommutePolynomial(varargin)
 		% We assume varargin{1} is a structure of polynomials with all the required fields.
 		% We use the copy constructor
 		obj = varargin{1};
-        return;
+        	return;
 	end
 	
 	% Use the full constructor
@@ -81,12 +81,12 @@ function obj = NonCommutePolynomial(varargin)
 	obj.m_cellMonomial = varargin{1};
 	obj.m_varProperties = varargin{2};
 	obj.m_varType = varargin{3};
-    % Calculate number of variables
+    	% Calculate number of variables
 	obj.m_numVar = 0;
  	if obj.m_varType == 1       % Observable case
-    	obj.m_numVar = length(obj.m_varProperties);
+    		obj.m_numVar = length(obj.m_varProperties);
  	else                        % Projector case
-    	for partitionNo = 1 : length(obj.m_varProperties)
+    		for partitionNo = 1 : length(obj.m_varProperties)
 			obj.m_numVar = obj.m_numVar + length(obj.m_varProperties{partitionNo});
 		end
  	end

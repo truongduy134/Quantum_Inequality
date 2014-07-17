@@ -82,14 +82,14 @@ function obj = NonCommutePolynomial(varargin)
 	obj.m_varProperties = varargin{2};
 	obj.m_varType = varargin{3};
     % Calculate number of variables
-    obj.m_numVar = 0;
-    if obj.m_varType == 1       % Observable case
-        obj.m_numVar = length(obj.m_varProperties);
-    else                        % Projector case
-        for partitionNo = 1 : length(obj.m_varProperties)
-            obj.m_numVar = obj.m_numVar + length(obj.m_varProperties{partitionNo});
-        end
-    end
+	obj.m_numVar = 0;
+ 	if obj.m_varType == 1       % Observable case
+    	obj.m_numVar = length(obj.m_varProperties);
+ 	else                        % Projector case
+    	for partitionNo = 1 : length(obj.m_varProperties)
+			obj.m_numVar = obj.m_numVar + length(obj.m_varProperties{partitionNo});
+		end
+ 	end
 
 	flagInputGroup = 0;
 	if nargin >= 4

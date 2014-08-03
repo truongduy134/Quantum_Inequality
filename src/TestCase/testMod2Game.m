@@ -41,14 +41,7 @@ function [valResult opResult] = testMod2Game(varargin)
 	disp('Rank Loop Result = ')
 	epsilon = 1e-12;
 	result{3} = standardizeMatrix(result{3}, 1e-10);
-	while(epsilon < 1e-5)
-		[rankLoop rankMoment] = hasRankLoop(result{3}, sdpLevel, result{5}, polyOp.m_varProperties, epsilon);
-		if rankLoop
-			break;
-		else
-			epsilon = epsilon * 10;
-		end
-	end
+	[rankLoop rankMoment epsilon] = hasRankLoop(result{3}, sdpLevel, result{5}, polyOp.m_varProperties);
 	
 	if rankLoop
 		disp('Rank loop occurs');
